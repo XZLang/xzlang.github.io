@@ -116,9 +116,9 @@ if (autoChangeMode === '1') {
 <p>给了框架源码和接口文档，源码是不可能去看的（懒），看看接口。</p>
 <p>这道题的目的是置0自己的<code>token balance</code>，合约里面有一个<code>transfer</code>函数，但是有一个<code>modifier</code>做限制，10年之后才能转出去，drl。</p>
 <p>接口文档中除了有<code>transfer</code>函数之外，还有一个<code>transferFrom</code>，这个函数合约中没有实现，所以直接调用就可以绕过<code>modifier</code>。</p>
-<p><img src= "/img/loading.gif" data-lazy-src="1.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/05/17/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8-ETHERNAUT-WriteUp-3/1.png"></p>
 <p>但是这个<code>transferFrom</code>需要授权。接着往下看就找到了可以用的一个方法：<code>approve</code></p>
-<p><img src= "/img/loading.gif" data-lazy-src="2.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/05/17/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8-ETHERNAUT-WriteUp-3/2.png"></p>
 <p>然后就很清晰了，先授权，再转账</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">contract.approve(player,<span class="number">1000000000000000000000000</span>)</span><br><span class="line"></span><br><span class="line">contract.transferFrom(player,contract.address,<span class="number">1000000000000000000000000</span>)</span><br></pre></td></tr></table></figure>
 

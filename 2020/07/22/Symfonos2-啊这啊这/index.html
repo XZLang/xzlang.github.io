@@ -103,12 +103,12 @@ if (autoChangeMode === '1') {
 <a id="more"></a>
 
 <p>照常扫扫</p>
-<p><img src= "/img/loading.gif" data-lazy-src="1.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/1.png"></p>
 <p>139端口和445端口开着，先连上共享文件</p>
 <p>整出来一个<code>log.txt</code>文件</p>
-<p><img src= "/img/loading.gif" data-lazy-src="2.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/2.png"></p>
 <p>审计这个日志，发现用户名是<code>aeolus</code></p>
-<p><img src= "/img/loading.gif" data-lazy-src="3.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/3.png"></p>
 <p>然后没有其他信息的情况下，试试爆破ssh</p>
 <blockquote>
 <p>hydra -l aeolus -P /usr/share/wordlists/metasploit/unix_passwords.txt ssh://192.168.40.156</p>
@@ -116,16 +116,16 @@ if (autoChangeMode === '1') {
 <p>爆出来密码<code>sergioteamo</code></p>
 <p>然后连上</p>
 <p>上去用nmap扫自己，扫出了好东西</p>
-<p><img src= "/img/loading.gif" data-lazy-src="6.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/6.png"></p>
 <p>看看这个8080端口，只允许本地访问，这个好办，直接端口转发</p>
 <blockquote>
-<p>ssh  -L 8080:127.0.0.1:8080 <a href="mailto:&#x61;&#101;&#111;&#108;&#117;&#115;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#x2e;&#x31;&#x31;&#46;&#49;&#x32;&#57;">&#x61;&#101;&#111;&#108;&#117;&#115;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#x2e;&#x31;&#x31;&#46;&#49;&#x32;&#57;</a></p>
+<p>ssh  -L 8080:127.0.0.1:8080 <a href="mailto:&#x61;&#x65;&#111;&#x6c;&#x75;&#x73;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#54;&#x38;&#46;&#x31;&#49;&#x2e;&#x31;&#x32;&#57;">&#x61;&#x65;&#111;&#x6c;&#x75;&#x73;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#54;&#x38;&#46;&#x31;&#49;&#x2e;&#x31;&#x32;&#57;</a></p>
 </blockquote>
 <p>然后访问一下</p>
-<p><img src= "/img/loading.gif" data-lazy-src="7.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/7.png"></p>
 <p>是个叫做librenms的站，MSF搜到exp，直接一把梭拿到shell</p>
 <p>然后MySQL提权成root</p>
-<p><img src= "/img/loading.gif" data-lazy-src="8.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/8.png"></p>
 <p>拿到final flag</p>
-<p><img src= "/img/loading.gif" data-lazy-src="9.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/9.png"></p>
 </div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">XZLang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/">http://yoursite.com/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Symfonos/">Symfonos</a><a class="post-meta__tags" href="/tags/mysql/">mysql</a><a class="post-meta__tags" href="/tags/ssh/">ssh</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/08/03/Symfonos3-%E5%97%AF%E5%91%90%E5%97%AF%E5%91%90/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Symfonos3-shellshock</div></div></a></div><div class="next-post pull-right"><a href="/2020/07/20/Symfonos-SMTP%E4%B8%8ELFI/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Symfonos:SMTP与LFI</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/07/20/Symfonos-SMTP与LFI/" title="Symfonos:SMTP与LFI"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-20</div><div class="relatedPosts_title">Symfonos:SMTP与LFI</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By XZLang</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="Increase Font Size"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="Decrease Font Size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>
