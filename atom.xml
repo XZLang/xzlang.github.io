@@ -198,7 +198,7 @@
     <published>2020-07-22T09:11:08.000Z</published>
     <updated>2020-07-22T13:10:07.860Z</updated>
     
-    <content type="html"><![CDATA[<p>日常靶机</p><a id="more"></a><p>照常扫扫</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/1.png"></p><p>139端口和445端口开着，先连上共享文件</p><p>整出来一个<code>log.txt</code>文件</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/2.png"></p><p>审计这个日志，发现用户名是<code>aeolus</code></p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/3.png"></p><p>然后没有其他信息的情况下，试试爆破ssh</p><blockquote><p>hydra -l aeolus -P /usr/share/wordlists/metasploit/unix_passwords.txt ssh://192.168.40.156</p></blockquote><p>爆出来密码<code>sergioteamo</code></p><p>然后连上</p><p>上去用nmap扫自己，扫出了好东西</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/6.png"></p><p>看看这个8080端口，只允许本地访问，这个好办，直接端口转发</p><blockquote><p>ssh  -L 8080:127.0.0.1:8080 <a href="mailto:&#x61;&#101;&#x6f;&#x6c;&#117;&#x73;&#x40;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#49;&#49;&#46;&#49;&#x32;&#57;">&#x61;&#101;&#x6f;&#x6c;&#117;&#x73;&#x40;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#49;&#49;&#46;&#49;&#x32;&#57;</a></p></blockquote><p>然后访问一下</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/7.png"></p><p>是个叫做librenms的站，MSF搜到exp，直接一把梭拿到shell</p><p>然后MySQL提权成root</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/8.png"></p><p>拿到final flag</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/9.png"></p>]]></content>
+    <content type="html"><![CDATA[<p>日常靶机</p><a id="more"></a><p>照常扫扫</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/1.png"></p><p>139端口和445端口开着，先连上共享文件</p><p>整出来一个<code>log.txt</code>文件</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/2.png"></p><p>审计这个日志，发现用户名是<code>aeolus</code></p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/3.png"></p><p>然后没有其他信息的情况下，试试爆破ssh</p><blockquote><p>hydra -l aeolus -P /usr/share/wordlists/metasploit/unix_passwords.txt ssh://192.168.40.156</p></blockquote><p>爆出来密码<code>sergioteamo</code></p><p>然后连上</p><p>上去用nmap扫自己，扫出了好东西</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/6.png"></p><p>看看这个8080端口，只允许本地访问，这个好办，直接端口转发</p><blockquote><p>ssh  -L 8080:127.0.0.1:8080 <a href="mailto:&#x61;&#101;&#x6f;&#x6c;&#x75;&#x73;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#x31;&#46;&#x31;&#x32;&#57;">&#x61;&#101;&#x6f;&#x6c;&#x75;&#x73;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#x31;&#46;&#x31;&#x32;&#57;</a></p></blockquote><p>然后访问一下</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/7.png"></p><p>是个叫做librenms的站，MSF搜到exp，直接一把梭拿到shell</p><p>然后MySQL提权成root</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/8.png"></p><p>拿到final flag</p><p><img src= "/img/loading.gif" data-lazy-src="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/9.png"></p>]]></content>
     
     
     <summary type="html">&lt;p&gt;日常靶机&lt;/p&gt;</summary>
@@ -437,11 +437,11 @@
     <category term="WP" scheme="http://yoursite.com/categories/WP/"/>
     
     
-    <category term="逻辑漏洞" scheme="http://yoursite.com/tags/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/"/>
-    
     <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
     
     <category term="Flask" scheme="http://yoursite.com/tags/Flask/"/>
+    
+    <category term="逻辑漏洞" scheme="http://yoursite.com/tags/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/"/>
     
   </entry>
   
