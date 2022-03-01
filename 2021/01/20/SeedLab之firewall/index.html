@@ -1,173 +1,28 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SeedLab之firewall | XZLang</title><meta name="description" content="FirewallTask 1: Using FirewallLinux有一个叫做iptables的工具，它本质上是防火墙。 在此任务中，目标是使用iptables设置一些防火墙策略，并在策略生效后观察系统的行为。  Prevent A from doing telnet to Machine B.本项实验需要用iptables实现阻挡机器A用telnet 连接机器B，命令如下，在机器A上阻止目的i"><meta name="keywords" content="firewall,ssh"><meta name="author" content="XZLang"><meta name="copyright" content="XZLang"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yoursite.com/2021/01/20/SeedLab%E4%B9%8Bfirewall/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="SeedLab之firewall"><meta property="og:url" content="http://yoursite.com/2021/01/20/SeedLab%E4%B9%8Bfirewall/"><meta property="og:site_name" content="XZLang"><meta property="og:description" content="FirewallTask 1: Using FirewallLinux有一个叫做iptables的工具，它本质上是防火墙。 在此任务中，目标是使用iptables设置一些防火墙策略，并在策略生效后观察系统的行为。  Prevent A from doing telnet to Machine B.本项实验需要用iptables实现阻挡机器A用telnet 连接机器B，命令如下，在机器A上阻止目的i"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2021-01-20T03:28:46.000Z"><meta property="article:modified_time" content="2021-01-20T03:38:37.176Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null) {
-    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
-  }
-}
-var activateLightMode = function () {
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null) {
-    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
-  }
-}
+extends includes/layout.pug
 
-var getCookies = function (name) {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${name}=`)
-  if (parts.length === 2) return parts.pop().split(';').shift()
-}
+block content
+  article#post(class="")
+    #article-container.post-content!=page.content
+    include includes/post/post-copyright.pug
+    .tag_share
+      if (theme.post_meta.post.tags)
+        .post-meta__tag-list
+          each item, index in page.tags.data
+            a(href=url_for(item.path)).post-meta__tags #[=item.name]
+      include includes/third-party/share/index.pug
+        
+    if theme.reward.enable
+      !=partial('includes/post/reward', {}, {cache:theme.fragment_cache})
 
-var autoChangeMode = 'false'
-var t = getCookies('theme')
-if (autoChangeMode === '1') {
-  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
-  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
-  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    //- ad
+    if theme.ad && theme.ad.post
+      .post-ad!=theme.ad.post
 
-  if (t === undefined) {
-    if (isLightMode) activateLightMode()
-    else if (isDarkMode) activateDarkMode()
-    else if (isNotSpecified || hasNoSupport) {
-      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-      var now = new Date()
-      var hour = now.getHours()
-      var isNight = hour <= 6 || hour >= 18
-      isNight ? activateDarkMode() : activateLightMode()
-    }
-    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
-      if (Cookies.get('theme') === undefined) {
-        e.matches ? activateDarkMode() : activateLightMode()
-      }
-    })
-  } else if (t === 'light') activateLightMode()
-  else activateDarkMode()
-} else if (autoChangeMode === '2') {
-  now = new Date()
-  hour = now.getHours()
-  isNight = hour <= 6 || hour >= 18
-  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode()
-} else {
-  if (t === 'dark') activateDarkMode()
-  else if (t === 'light') activateLightMode()
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  hexoversion: '5.0.2',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  copy: {
-    success: 'Copy successfully',
-    error: 'Copy error',
-    noSupport: 'The browser does not support'
-  },
-  bookmark: {
-    message_prev: 'Press',
-    message_next: 'to bookmark this page'
-  },
-  runtime_unit: 'days',
-  runtime: false,
-  copyright: undefined,
-  ClickShowText: undefined,
-  medium_zoom: false,
-  fancybox: true,
-  Snackbar: undefined,
-  justifiedGallery: {
-    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
-    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
-  },
-  baiduPush: false,
-  highlightCopy: true,
-  highlightLang: true,
-  isPhotoFigcaption: false,
-  islazyload: true,
-  isanchor: false    
-}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
-  isPost: true,
-  isHome: false,
-  isHighlightShrink: false,
-  isSidebar: true,
-  postUpdate: '2021-01-20 11:38:37'
-}</script><noscript><style>
-#nav {
-  opacity: 1
-}
-.justified-gallery img {
-  opacity: 1
-}
-</style></noscript><meta name="generator" content="Hexo 5.0.2"><link rel="alternate" href="/atom.xml" title="XZLang" type="application/atom+xml">
-</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">36</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">Categories</div><div class="length_num">10</div></a></div></div></div><hr/></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Firewall"><span class="toc-number">1.</span> <span class="toc-text">Firewall</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-1-Using-Firewall"><span class="toc-number">1.1.</span> <span class="toc-text">Task 1: Using Firewall</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prevent-A-from-doing-telnet-to-Machine-B"><span class="toc-number">1.1.1.</span> <span class="toc-text">Prevent A from doing telnet to Machine B.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prevent-B-from-doing-telnet-to-Machine-A"><span class="toc-number">1.1.2.</span> <span class="toc-text">Prevent B from doing telnet to Machine A.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prevent-A-from-visiting-an-external-web-site"><span class="toc-number">1.1.3.</span> <span class="toc-text">Prevent A from visiting an external web site.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-2-Implementing-a-Simple-Firewall"><span class="toc-number">1.2.</span> <span class="toc-text">Task 2: Implementing a Simple Firewall</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Prevent-A-from-doing-telnet-to-Machine-B-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">Prevent A from doing telnet to Machine B.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prevent-B-from-doing-telnet-to-Machine-A-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">Prevent B from doing telnet to Machine A.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prevent-A-from-doing-ping-to-Machine-B"><span class="toc-number">1.2.3.</span> <span class="toc-text">Prevent A from doing ping to Machine B.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-3-Evading-Egress-Filtering"><span class="toc-number">1.3.</span> <span class="toc-text">Task 3: Evading Egress Filtering</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Task-3-a-Telnet-to-Machine-B-through-the-firewall"><span class="toc-number">1.3.1.</span> <span class="toc-text">Task 3.a: Telnet to Machine B through the firewall.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Task-3-b-Connect-to-Facebook-using-SSH-Tunnel"><span class="toc-number">1.3.2.</span> <span class="toc-text">Task 3.b: Connect to Facebook using SSH Tunnel.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-4-Evading-Ingress-Filtering"><span class="toc-number">1.4.</span> <span class="toc-text">Task 4: Evading Ingress Filtering</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">XZLang</a></span><span class="pull-right menus"><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">SeedLab之firewall</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-01-20T03:28:46.000Z" title="Created 2021-01-20 11:28:46">2021-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-01-20T03:38:37.176Z" title="Updated 2021-01-20 11:38:37">2021-01-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/SeedLab/">SeedLab</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Firewall"><a href="#Firewall" class="headerlink" title="Firewall"></a>Firewall</h1><h2 id="Task-1-Using-Firewall"><a href="#Task-1-Using-Firewall" class="headerlink" title="Task 1: Using Firewall"></a>Task 1: Using Firewall</h2><p>Linux有一个叫做iptables的工具，它本质上是防火墙。 在此任务中，目标是使用iptables设置一些防火墙策略，并在策略生效后观察系统的行为。 </p>
-<h3 id="Prevent-A-from-doing-telnet-to-Machine-B"><a href="#Prevent-A-from-doing-telnet-to-Machine-B" class="headerlink" title="Prevent A from doing telnet to Machine B."></a>Prevent A from doing telnet to Machine B.</h3><p>本项实验需要用<code>iptables</code>实现阻挡机器A用<code>telnet </code>连接机器B，命令如下，在机器A上阻止目的ip是机器B且端口是23的数据包<strong>发出</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A OUTPUT -d 192.168.164.130 -p tcp --dport 23 -j DROP</span><br></pre></td></tr></table></figure>
+    include includes/pagination.pug
+    if theme.related_post && theme.related_post.enable
+      != related_posts(page,site.posts)
 
-<p>如下图，可以看到，连接不能成功</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113359384.png" alt="image-20210120113359384"></p>
-<h3 id="Prevent-B-from-doing-telnet-to-Machine-A"><a href="#Prevent-B-from-doing-telnet-to-Machine-A" class="headerlink" title="Prevent B from doing telnet to Machine A."></a>Prevent B from doing telnet to Machine A.</h3><p>本项实验需要用<code>iptables</code>实现阻挡机器B用<code>telnet </code>连接机器A，命令如下，在机器A上阻止来源IP是机器A且端口是23的数据包<strong>进入</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -s 192.168.164.130 -p tcp --dport 23 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113413269.png" alt="image-20210120113413269"></p>
-<p>如下图，可以看到，连接不能成功</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113422776.png" alt="image-20210120113422776"></p>
-<h3 id="Prevent-A-from-visiting-an-external-web-site"><a href="#Prevent-A-from-visiting-an-external-web-site" class="headerlink" title="Prevent A from visiting an external web site."></a>Prevent A from visiting an external web site.</h3><p>You can choose any web site that you like to block, but keep in mind, some web servers have multiple IP addresses.</p>
-<p>这里我们选择百度为我们实验的目标网站，我们用<code>iptables</code>阻挡机器A往<code>www.baidu.com</code>发包</p>
-<p>根据下面图片可以看到，实验前可以打开页面，实验之后页面不能打开。</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113435857.png" alt="image-20210120113435857"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A OUTPUT -p tcp -d www.baidu.com --dport 80 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113447672.png" alt="image-20210120113447672"></p>
-<h2 id="Task-2-Implementing-a-Simple-Firewall"><a href="#Task-2-Implementing-a-Simple-Firewall" class="headerlink" title="Task 2: Implementing a Simple Firewall"></a>Task 2: Implementing a Simple Firewall</h2><p>您在前面的任务中使用的防火墙是防火墙的包过滤类型。 这种类型的防火墙的主要部分是过滤部分，它检查每个传入和传出的数据包，并强制执行管理员设置的防火墙策略。 由于包处理是在内核中完成的，所以过滤也必须在内核中完成。 因此，实现这样的防火墙似乎需要我们修改Linux内核。 在过去，这必须通过修改和重建内核来完成。 现代Linux操作系统提供了几种新的机制，以方便在不重建内核映像的情况下操作数据包。 这两种机制是可加载内核模块(LKM)和Netfilter。</p>
-<p>LKM允许我们在运行时向内核添加一个新模块。 这个新模块使我们能够扩展内核的功能，而不重建内核，甚至不重新启动计算机。 防火墙的数据包过滤部分可以作为LKM实现。 然而，这还不够。 为了使过滤模块阻止传入/传出数据包，必须将该模块插入到数据包处理路径中。 在Netfilter被引入Linux之前，这是不容易做到的。</p>
-<p>Netfilter的设计是为了方便授权用户操作数据包。 Netfilter通过在Linux内核中实现多个钩子来实现这个目标。 这些钩子被插入到各种地方，包括数据包传入和传出路径。 如果我们想操作传入的数据包，我们只需要将我们自己的程序(在LKM内)连接到相应的钩子上。 一旦传入的数据包到达，我们的程序将被调用。 我们的程序可以决定这个数据包是否应该被阻塞；此外，我们还可以修改程序中的数据包。</p>
-<p>在此任务中，需要使用LKM和Netfilter来实现包过滤模块。 该模块将从数据结构中获取防火墙策略，并使用策略来决定数据包是否应该被阻塞。 为了让您的生活更轻松，所以您可以专注于过滤部分，防火墙的核心，我们允许您在程序中硬编码防火墙策略。 </p>
-<p>在用 <code>netfilter</code>编程的过程中，我们用以下两个函数匹配IP</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check_address_src</span><span class="params">(struct iphdr *ip_header, <span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c, <span class="keyword">int</span> d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (((ip_header-&gt;saddr &amp; <span class="number">0xff000000</span>) &gt;&gt; <span class="number">24</span>) != d)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">if</span> (((ip_header-&gt;saddr &amp; <span class="number">0x00ff0000</span>) &gt;&gt; <span class="number">16</span>) != c)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">if</span> (((ip_header-&gt;saddr &amp; <span class="number">0x0000ff00</span>) &gt;&gt; <span class="number">8</span>) != b)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">if</span> ((ip_header-&gt;saddr &amp; <span class="number">0x000000ff</span>) != a)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check_address_dst</span><span class="params">(struct iphdr *ip_header, <span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c, <span class="keyword">int</span> d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (((ip_header-&gt;daddr &amp; <span class="number">0xff000000</span>) &gt;&gt; <span class="number">24</span>) != d)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">if</span> (((ip_header-&gt;daddr &amp; <span class="number">0x00ff0000</span>) &gt;&gt; <span class="number">16</span>) != c)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">if</span> (((ip_header-&gt;daddr &amp; <span class="number">0x0000ff00</span>) &gt;&gt; <span class="number">8</span>) != b)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">if</span> ((ip_header-&gt;daddr &amp; <span class="number">0x000000ff</span>) != a)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后写过滤数据包的钩子函数，见下面截图，然后是钩子函数的注册和清除，我选择将入口和出口的过滤钩子注册在<code>NF_INET_PRE_ROUTING</code>和<code>NF_INET_POST_ROUTING</code>两个位置。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">init_module</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   nfho_in.hook = hook_func_in;</span><br><span class="line">   nfho_in.hooknum = NF_INET_PRE_ROUTING;</span><br><span class="line">   nfho_in.pf = PF_INET;</span><br><span class="line">   nfho_in.priority = NF_IP_PRI_FIRST;</span><br><span class="line">   nf_register_hook(&amp;nfho_in);</span><br><span class="line"></span><br><span class="line">   nfho_out.hook = hook_func_out;</span><br><span class="line">   nfho_out.hooknum = NF_INET_POST_ROUTING;</span><br><span class="line">   nfho_out.pf = PF_INET;</span><br><span class="line">   nfho_out.priority = NF_IP_PRI_FIRST;</span><br><span class="line">   nf_register_hook(&amp;nfho_out);</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cleanup_module</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   printk(KERN_INFO <span class="string">&quot;\nbye&quot;</span>);</span><br><span class="line">   nf_unregister_hook(&amp;nfho_in);</span><br><span class="line">   nf_unregister_hook(&amp;nfho_out);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Prevent-A-from-doing-telnet-to-Machine-B-1"><a href="#Prevent-A-from-doing-telnet-to-Machine-B-1" class="headerlink" title="Prevent A from doing telnet to Machine B."></a>Prevent A from doing telnet to Machine B.</h3><p>为了实现功能，我们在出口钩子函数实现以下代码，我们判断目的端口是不是23，然后判断目的ip是不是我们的过滤目标。</p>
-<p><img src= "/img/loading.gif" data-lazy-src="/2021/01/20/SeedLab%E4%B9%8Bfirewall/mdimg\image-20201208165253375.png" alt="image-20201208165253375"></p>
-<p>如图，实验成功，连接不成功，而且在dmesg中看到了右边的记录</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113458912.png" alt="image-20210120113458912"></p>
-<h3 id="Prevent-B-from-doing-telnet-to-Machine-A-1"><a href="#Prevent-B-from-doing-telnet-to-Machine-A-1" class="headerlink" title="Prevent B from doing telnet to Machine A."></a>Prevent B from doing telnet to Machine A.</h3><p>为了实现功能，在入口钩子函数里实现以下代码，我们判断目的端口是不是23，然后判断目的和来源ip是不是我们的过滤目标。</p>
-<p><img src= "/img/loading.gif" data-lazy-src="/2021/01/20/SeedLab%E4%B9%8Bfirewall/mdimg\image-20201208170901200.png" alt="image-20201208170901200"></p>
-<p>如图，实验成功，连接不成功，而且在dmesg中看到了右边的记录</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113508200.png" alt="image-20210120113508200"></p>
-<h3 id="Prevent-A-from-doing-ping-to-Machine-B"><a href="#Prevent-A-from-doing-ping-to-Machine-B" class="headerlink" title="Prevent A from doing ping to Machine B."></a>Prevent A from doing ping to Machine B.</h3><p>为了实现功能，在出口钩子函数里实现以下代码，我们判断协议是不是<code>icmp的请求包</code>，然后判断目的和来源ip是不是我们的过滤目标。</p>
-<p><img src= "/img/loading.gif" data-lazy-src="/2021/01/20/SeedLab%E4%B9%8Bfirewall/mdimg\image-20201208170837324.png" alt="image-20201208170837324"></p>
-<p>如图，实验成功，连接不成功，而且在dmesg中看到了右边的记录</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113516760.png" alt="image-20210120113516760"></p>
-<h2 id="Task-3-Evading-Egress-Filtering"><a href="#Task-3-Evading-Egress-Filtering" class="headerlink" title="Task 3: Evading Egress Filtering"></a>Task 3: Evading Egress Filtering</h2><p>许多公司和学校实施出口过滤，这阻止了他们网络中的用户接触到某些网站或互联网服务。 它们确实允许用户访问其他网站。 在许多情况下，这种类型的防火墙检查传出数据包中的目标IP地址和端口号。 如果一个数据包符合限制，它将被丢弃。 由于性能原因，它们通常不进行深度分组检查(即查看数据包的数据部分。 在这个任务中，我们展示了如何使用隧道机制绕过这种出口过滤。 建立隧道有很多方法；在这项任务中，我们只关注SSH隧道。</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113525846.png" alt="image-20210120113525846"></p>
-<h3 id="Task-3-a-Telnet-to-Machine-B-through-the-firewall"><a href="#Task-3-a-Telnet-to-Machine-B-through-the-firewall" class="headerlink" title="Task 3.a: Telnet to Machine B through the firewall."></a>Task 3.a: Telnet to Machine B through the firewall.</h3><p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113533013.png" alt="image-20210120113533013"></p>
-<p>下面的命令在本地主机（端口8000）和机器B（使用默认端口22）之间建立SSH隧道；当数据包从B端出来时，它将被转发到机器C的端口23(telnet端口)。 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L 8000:192.168.164.128:23 seed@192.168.164.128</span><br></pre></td></tr></table></figure>
-
-<p>当我们将telnet传输到localhost的端口8000时，SSH将将我们所有的TCP数据包从localhost：8000上的隧道的一端传输到机器B上的隧道的另一端；从那里，数据包将被转发到机器B：23。 </p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113543262.png" alt="image-20210120113543262"></p>
-<h3 id="Task-3-b-Connect-to-Facebook-using-SSH-Tunnel"><a href="#Task-3-b-Connect-to-Facebook-using-SSH-Tunnel" class="headerlink" title="Task 3.b: Connect to Facebook using SSH Tunnel."></a>Task 3.b: Connect to Facebook using SSH Tunnel.</h3><p>在这里，我们使用动态端口转发的方式，所以我们只指定了本地的端口，当B机器接收到我们本地机器发送过去的数据包后，根据数据包的信息动态确定转发到哪个端口上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -D 9000 seed@192.168.164.128</span><br></pre></td></tr></table></figure>
-
-<p>如下图，我们开启ssh</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113553576.png" alt="image-20210120113553576"></p>
-<p>在Firefox里面我们用<code>SOCKS</code>代理，将数据包发送到本地的9000端口，然后数据会通过我们的SSH隧道</p>
-<img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113603986.png" alt="image-20210120113603986" style="zoom:67%;">
-
-<p>如下图，我们成功绕过了过滤</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113617917.png" alt="image-20210120113617917"></p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113625808.png" alt="image-20210120113625808"></p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113634397.png" alt="image-20210120113634397"></p>
-<h2 id="Task-4-Evading-Ingress-Filtering"><a href="#Task-4-Evading-Ingress-Filtering" class="headerlink" title="Task 4: Evading Ingress Filtering"></a>Task 4: Evading Ingress Filtering</h2><p>这里为了绕过INPUT形式的包过滤，我们采用了SSH反向代理的方式，首先我们在A机器上执行下命令，相当于将主动发起了连接，将机器<code>192.168.164.131</code>的7000端口转发到了A机器的22端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 22 -qngfNTR 7000:localhost:22 seed@192.168.164.131</span><br></pre></td></tr></table></figure>
-
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113644441.png" alt="image-20210120113644441"></p>
-<p>然后我们在机器<code>192.168.164.131</code>中执行下列命令，连接自己的7000端口，然后数据会通过隧道转发到A机器的22端口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 7000 seed@localhost</span><br></pre></td></tr></table></figure>
-
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113653325.png" alt="image-20210120113653325"></p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20210120113702372.png" alt="image-20210120113702372"></p>
-<p>反向代理原理可用上图理解。</p>
-</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">XZLang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2021/01/20/SeedLab%E4%B9%8Bfirewall/">http://yoursite.com/2021/01/20/SeedLab%E4%B9%8Bfirewall/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/firewall/">firewall</a><a class="post-meta__tags" href="/tags/ssh/">ssh</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/03/01/Java%E5%AE%89%E5%85%A8-CommonCollection%E9%93%BE/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Java安全-CommonCollection链</div></div></a></div><div class="next-post pull-right"><a href="/2021/01/08/PE%E6%96%87%E4%BB%B6%E4%B8%8E%E5%8A%9F%E8%83%BD/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">PE文件与功能</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/07/22/Symfonos2-啊这啊这/" title="Symfonos2:啊这啊这"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-22</div><div class="relatedPosts_title">Symfonos2:啊这啊这</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By XZLang</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="Increase Font Size"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="Decrease Font Size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>
+    if page.comments !== false && theme.comments && theme.comments.use
+      - var commentsJsLoad = true
+      !=partial('includes/third-party/comments/index', {}, {cache:theme.fragment_cache})
+      
