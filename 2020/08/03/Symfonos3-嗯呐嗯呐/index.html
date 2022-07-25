@@ -104,26 +104,26 @@ if (autoChangeMode === '1') {
 
 
 
-<p><img src= "/img/loading.gif" data-lazy-src="1.png"></p>
-<p><img src= "/img/loading.gif" data-lazy-src="2.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/1.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2.png"></p>
 <p>主机开了21，22，80端口，然后用dirb扫一下目录看看</p>
-<p><img src= "/img/loading.gif" data-lazy-src="3.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/3.png"></p>
 <p>扫出了<code>cgi-bin</code>，接着扫，在<code>cgi-bin</code>目录下扫到了一个<code>underworld</code>目录</p>
 <p>访问</p>
-<p><img src= "/img/loading.gif" data-lazy-src="4.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/4.png"></p>
 <p>显然这个页面的显示是uptime命令的回显结果</p>
 <p>这里是一个<code>shellshock</code>的漏洞，直接用MSF的EXP一把梭</p>
-<p><img src= "/img/loading.gif" data-lazy-src="5.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/5.png"></p>
 <p>拿到shell之后，考虑提权</p>
 <p>先用<a target="_blank" rel="noopener" href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite">linPEAS</a>脚本跑一下</p>
 <p>然后可以找到<code>tcpdump</code>的<code>cap</code></p>
-<p><img src= "/img/loading.gif" data-lazy-src=".png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/.png"></p>
 <p>下载工具pyps</p>
 <blockquote>
 <p>wget <a target="_blank" rel="noopener" href="https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64/">https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64\</a></p>
 <p>pspy是一种命令行工具，旨在无需root权限即可监听进程。它使您可以查看其他用户执行的命令，cron作业等。非常适合枚举CTF中的Linux系统。很好地向您的同事展示为什么在命令行中将秘密作为参数传递是一个坏主意。<br> 该工具从procfs扫描中收集信息。放置在文件系统选定部分上的Inotify观察程序将触发这些扫描，以捕获短暂的进程。</p>
 </blockquote>
-<p><img src= "/img/loading.gif" data-lazy-src="7.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/7.png"></p>
 <p><strong>ftp协议是明文传输的</strong>，如果能抓到ftp的包，那就可以得到账号密码了。那么使用什么工具抓包呢？比较常用的是<strong>tcpdump</strong>，查看靶机上是否安装了tcpdump，命令：<code>tcpdump --version</code></p>
 <blockquote>
 <p>tcpdump -i lo -w ftp.pcap</p>
@@ -133,17 +133,17 @@ if (autoChangeMode === '1') {
 <p>wget <a target="_blank" rel="noopener" href="http://192.168.40.160:9999/ftp.pcap">http://192.168.40.160:9999/ftp.pcap</a></p>
 </blockquote>
 <p>然后wireshark分析一下就有用户名密码了</p>
-<p><img src= "/img/loading.gif" data-lazy-src="8.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/8.png"></p>
 <p>然后直接ssh登录</p>
-<p><img src= "/img/loading.gif" data-lazy-src="9.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/9.png"></p>
 <p>刚才使用pspy工具的时候发现，ftpclient.py是以root身份运行的，如果hades用户具有对ftpclient.py脚本的写入权限，那么就可以提权。但是这里没有权限，那么我们考虑来看看hades对那些文件有可写权限</p>
 <blockquote>
 <p>find / -writable -type d 2&gt;/dev/null</p>
 </blockquote>
 <p>发现好东西了</p>
-<p><img src= "/img/loading.gif" data-lazy-src="10.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/10.png"></p>
 <p>然后考虑对ftpclient.py文件中导入的ftplib模块的源码进行修改</p>
-<p><img src= "/img/loading.gif" data-lazy-src="11.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/11.png"></p>
 <p>如图，现在监听端口，就可以接到root的反弹shell</p>
-<p><img src= "/img/loading.gif" data-lazy-src="12.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/12.png"></p>
 </div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">XZLang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2020/08/03/Symfonos3-%E5%97%AF%E5%91%90%E5%97%AF%E5%91%90/">http://yoursite.com/2020/08/03/Symfonos3-%E5%97%AF%E5%91%90%E5%97%AF%E5%91%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Symfnons/">Symfnons</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/08/11/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E7%B3%BB%E5%88%97/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">内网渗透系列</div></div></a></div><div class="next-post pull-right"><a href="/2020/07/22/Symfonos2-%E5%95%8A%E8%BF%99%E5%95%8A%E8%BF%99/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Symfonos2:啊这啊这</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By XZLang</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="Increase Font Size"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="Decrease Font Size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>
